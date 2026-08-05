@@ -6,7 +6,7 @@
     <title>Pokaholics</title>
     <meta
       name="description"
-      content="Pokaholics — weeb gamblers, pack chasers, sealed-product problems. Find us on Instagram."
+      content="Pokaholics — free pack inside. (The real pull is help for pack-opening addiction.)"
     />
     <meta name="theme-color" content="#0B0B14" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,7 +18,6 @@
     <style>
       :root {
         --void: #0b0b14;
-        --booth: #141422;
         --panel: #1c1c2e;
         --paper: #f7f4ff;
         --muted: #9a95b3;
@@ -51,7 +50,6 @@
         text-rendering: optimizeLegibility;
       }
 
-      /* Late-night booth: gradient mesh + soft stars, not casino felt */
       .scene {
         position: relative;
         min-height: 100dvh;
@@ -97,27 +95,49 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.35rem;
+        gap: 1.1rem;
         text-align: center;
-        animation: float-in 0.8s cubic-bezier(0.2, 0.85, 0.25, 1) both;
       }
 
-      @keyframes float-in {
-        from {
-          opacity: 0;
-          transform: translateY(1.1rem) scale(0.97);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+      /* ——— GATE: sealed pack bait ——— */
+      .gate {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        animation: float-in 0.75s cubic-bezier(0.2, 0.85, 0.25, 1) both;
       }
 
-      /* Original booster-pack silhouette — not any licensed product */
+      .gate[hidden],
+      .reveal[hidden] {
+        display: none !important;
+      }
+
+      .gate__hook {
+        margin: 0;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--star);
+      }
+
+      .gate__sub {
+        margin: 0;
+        max-width: 20rem;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--muted);
+      }
+
       .pack {
         position: relative;
         width: min(100%, 15.5rem);
         aspect-ratio: 5 / 7.2;
+        padding: 0;
+        border: none;
         border-radius: 0.85rem 0.85rem 1rem 1rem;
         background: linear-gradient(160deg, #2a2440 0%, var(--panel) 40%, #12121c 100%);
         box-shadow:
@@ -126,21 +146,55 @@
           0 0 40px -8px rgba(255, 61, 154, 0.25);
         overflow: hidden;
         isolation: isolate;
+        cursor: pointer;
+        color: inherit;
+        font: inherit;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        animation: pack-tease 2.8s ease-in-out infinite;
+      }
+
+      .pack:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 28px 56px -14px rgba(0, 0, 0, 0.75),
+          0 0 48px -6px rgba(92, 225, 255, 0.35);
+        animation-play-state: paused;
+      }
+
+      .pack:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 4px;
+      }
+
+      .pack:active {
+        transform: scale(0.98);
+      }
+
+      @keyframes pack-tease {
+        0%,
+        100% {
+          transform: rotate(-1.2deg) translateY(0);
+        }
+        50% {
+          transform: rotate(1.2deg) translateY(-4px);
+        }
       }
 
       .pack__foil {
         position: absolute;
         inset: 0;
-        background:
-          linear-gradient(
-            115deg,
-            transparent 20%,
-            rgba(92, 225, 255, 0.15) 35%,
-            rgba(184, 164, 255, 0.22) 48%,
-            rgba(255, 61, 154, 0.18) 58%,
-            rgba(255, 229, 102, 0.12) 68%,
-            transparent 80%
-          );
+        background: linear-gradient(
+          115deg,
+          transparent 20%,
+          rgba(92, 225, 255, 0.15) 35%,
+          rgba(184, 164, 255, 0.22) 48%,
+          rgba(255, 61, 154, 0.18) 58%,
+          rgba(255, 229, 102, 0.12) 68%,
+          transparent 80%
+        );
         background-size: 220% 220%;
         animation: foil-sweep 6s ease-in-out infinite;
         mix-blend-mode: screen;
@@ -164,18 +218,18 @@
         right: 0;
         height: 1.35rem;
         background: linear-gradient(90deg, var(--foil-mag), var(--foil-lilac), var(--foil-cyan));
-        opacity: 0.9;
+        opacity: 0.95;
       }
 
       .pack__seal::after {
-        content: "SEALED · ORIGINAL ART";
+        content: "FREE · TAP TO OPEN";
         position: absolute;
         inset: 0;
         display: grid;
         place-items: center;
-        font-size: 0.55rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
+        font-size: 0.58rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
         color: var(--ink);
       }
 
@@ -202,15 +256,13 @@
       .pack__logo {
         margin: 0;
         font-family: "Dela Gothic One", "Outfit", system-ui, sans-serif;
-        font-weight: 400;
         font-size: clamp(1.65rem, 7vw, 2rem);
         line-height: 1.05;
         letter-spacing: 0.02em;
         text-transform: uppercase;
       }
 
-      .pack__logo .holo {
-        display: block;
+      .holo {
         background: linear-gradient(
           105deg,
           var(--foil-cyan) 0%,
@@ -224,6 +276,10 @@
         background-clip: text;
         color: transparent;
         animation: holo-text 5s linear infinite;
+      }
+
+      .pack__logo .holo {
+        display: block;
       }
 
       @keyframes holo-text {
@@ -249,7 +305,6 @@
         overflow: hidden;
       }
 
-      /* Abstract "creature spark" — original, not any franchise mascot */
       .spark {
         width: 4.5rem;
         height: 4.5rem;
@@ -329,9 +384,202 @@
         margin: 0;
         font-size: 0.7rem;
         font-weight: 700;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--star);
+      }
+
+      .gate__cta {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--paper);
+      }
+
+      .gate__cta span {
+        display: inline-block;
+        animation: nudge 1.4s ease-in-out infinite;
+      }
+
+      @keyframes nudge {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(3px);
+        }
+      }
+
+      .gate__fine {
+        margin: 0;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--muted) 75%, transparent);
+      }
+
+      /* Opening state */
+      .gate.is-ripping .pack {
+        animation: rip-pack 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        pointer-events: none;
+      }
+
+      @keyframes rip-pack {
+        0% {
+          transform: scale(1) rotate(0);
+          filter: brightness(1);
+        }
+        35% {
+          transform: scale(1.06) rotate(-3deg);
+          filter: brightness(1.35);
+        }
+        100% {
+          transform: scale(0.4) rotate(8deg) translateY(2rem);
+          opacity: 0;
+          filter: brightness(2);
+        }
+      }
+
+      .burst {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0;
+      }
+
+      .gate.is-ripping .burst {
+        animation: burst-flash 0.65s ease-out forwards;
+      }
+
+      @keyframes burst-flash {
+        0% {
+          opacity: 0;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.7), transparent 40%);
+        }
+        30% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* ——— REVEAL: the actual site ——— */
+      .reveal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.15rem;
+        width: 100%;
+      }
+
+      .reveal.is-in {
+        animation: float-in 0.7s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+      }
+
+      @keyframes float-in {
+        from {
+          opacity: 0;
+          transform: translateY(1.1rem) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Pull card — the "hit" */
+      .pull {
+        position: relative;
+        width: min(100%, 15.5rem);
+        aspect-ratio: 5 / 7;
+        border-radius: 0.85rem;
+        padding: 0.85rem;
+        background: linear-gradient(165deg, #2e2848 0%, #1a1a2c 100%);
+        box-shadow:
+          0 0 0 2px rgba(255, 229, 102, 0.45),
+          0 0 0 4px rgba(255, 61, 154, 0.2),
+          0 24px 48px -16px rgba(0, 0, 0, 0.7),
+          0 0 40px -6px rgba(255, 229, 102, 0.25);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .pull__foil {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 15%,
+          rgba(255, 229, 102, 0.2) 35%,
+          rgba(92, 225, 255, 0.18) 50%,
+          rgba(255, 61, 154, 0.2) 65%,
+          transparent 85%
+        );
+        background-size: 220% 220%;
+        animation: foil-sweep 5s ease-in-out infinite;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+
+      .pull__frame {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 0.55rem;
+        padding: 0.75rem;
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .pull__meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 0.5rem;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--star);
+      }
+
+      .pull__art {
+        flex: 1;
+        border-radius: 0.4rem;
+        margin-bottom: 0.65rem;
+        background:
+          radial-gradient(circle at 40% 35%, rgba(255, 229, 102, 0.25), transparent 50%),
+          radial-gradient(circle at 70% 70%, rgba(92, 225, 255, 0.2), transparent 45%),
+          linear-gradient(180deg, #2a2440, #12121c);
+        display: grid;
+        place-items: center;
+        min-height: 6rem;
+      }
+
+      .pull__name {
+        margin: 0;
+        font-family: "Dela Gothic One", "Outfit", system-ui, sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.15;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .pull__type {
+        margin: 0.35rem 0 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--muted);
       }
 
       .copy {
@@ -373,14 +621,13 @@
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        animation: holo-text 5s linear infinite;
       }
 
       .lede {
         margin: 0.2rem 0 0;
         font-size: 1.05rem;
         font-weight: 500;
-        line-height: 1.4;
+        line-height: 1.45;
         color: var(--muted);
       }
 
@@ -389,13 +636,83 @@
         font-weight: 600;
       }
 
+      .gotcha {
+        margin: 0.15rem 0 0;
+        padding: 0.55rem 0.8rem;
+        border-radius: 0.65rem;
+        background: rgba(255, 61, 154, 0.12);
+        border: 1px solid rgba(255, 61, 154, 0.28);
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.4;
+        color: var(--paper);
+      }
+
+      .helps {
+        list-style: none;
+        margin: 0.5rem 0 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        text-align: left;
+      }
+
+      .helps li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.55rem;
+        padding: 0.55rem 0.7rem;
+        border-radius: 0.65rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        font-size: 0.88rem;
+        font-weight: 500;
+        line-height: 1.35;
+        color: var(--muted);
+      }
+
+      .helps li strong {
+        color: var(--paper);
+        font-weight: 600;
+      }
+
+      .helps li::before {
+        content: "✦";
+        flex-shrink: 0;
+        color: var(--foil-cyan);
+        font-size: 0.75rem;
+        line-height: 1.45;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.4rem;
+        margin-top: 0.15rem;
+      }
+
+      .tag {
+        margin: 0;
+        padding: 0.28rem 0.65rem;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
       .actions {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.6rem;
         width: 100%;
-        margin-top: 0.25rem;
+        margin-top: 0.15rem;
       }
 
       .ig {
@@ -471,44 +788,46 @@
         color: var(--muted);
       }
 
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.4rem;
-        margin-top: 0.15rem;
-      }
-
-      .tag {
-        margin: 0;
-        padding: 0.28rem 0.65rem;
-        border-radius: 999px;
-        font-size: 0.68rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .stage,
+        .gate,
+        .reveal.is-in,
+        .pack,
         .pack__foil,
-        .pack__logo .holo,
-        .title .holo,
+        .pull__foil,
+        .holo,
         .spark__core,
         .spark__ring,
-        .spark__star {
-          animation: none;
+        .spark__star,
+        .gate__cta span {
+          animation: none !important;
         }
 
-        .pack__logo .holo,
-        .title .holo {
+        .holo {
           background-position: 40% center;
+        }
+
+        .pack:hover {
+          transform: none;
         }
 
         .ig {
           transition: none;
+        }
+
+        .gate.is-ripping .pack {
+          opacity: 0;
         }
       }
     </style>
@@ -516,70 +835,137 @@
   <body>
     <main class="scene">
       <div class="stage">
-        <div class="pack" aria-hidden="true">
-          <div class="pack__foil"></div>
-          <div class="pack__seal"></div>
-          <div class="pack__body">
-            <p class="pack__tag">Booster · Fan brand</p>
-            <p class="pack__logo">
-              <span class="holo">Poka<br />holics</span>
-            </p>
-            <div class="pack__art">
-              <div class="spark">
-                <div class="spark__ring"></div>
-                <div class="spark__core"></div>
-                <div class="spark__star"></div>
-              </div>
-            </div>
-            <p class="pack__rarity">★★★ Chase energy</p>
-          </div>
-        </div>
-
-        <div class="copy">
-          <p class="eyebrow">Pack gamblers only</p>
-          <h1 class="title"><span class="holo">Pokaholics</span></h1>
-          <p class="lede">
-            Weebs with a <strong>sealed-product problem</strong>.
-            For the chase — not the investment.
-            <em>(Okay, a little the investment.)</em>
+        <!-- BAIT: free pack gate -->
+        <div class="gate" id="gate">
+          <p class="gate__hook">Complimentary booster</p>
+          <p class="gate__sub">
+            One free pull. No checkout. Just&nbsp;open&nbsp;it.
           </p>
-          <div class="tags" aria-hidden="true">
-            <p class="tag">holo hunt</p>
-            <p class="tag">late-night rips</p>
-            <p class="tag">grail brain</p>
-          </div>
+
+          <button
+            type="button"
+            class="pack"
+            id="open-pack"
+            aria-describedby="pack-hint"
+          >
+            <span class="sr-only">Open free pack to enter the site</span>
+            <div class="pack__foil" aria-hidden="true"></div>
+            <div class="pack__seal" aria-hidden="true"></div>
+            <div class="pack__body" aria-hidden="true">
+              <p class="pack__tag">Mystery · Fan brand</p>
+              <p class="pack__logo">
+                <span class="holo">Poka<br />holics</span>
+              </p>
+              <div class="pack__art">
+                <div class="spark">
+                  <div class="spark__ring"></div>
+                  <div class="spark__core"></div>
+                  <div class="spark__star"></div>
+                </div>
+              </div>
+              <p class="pack__rarity">★★★ Guaranteed hit</p>
+            </div>
+          </button>
+
+          <p class="gate__cta" id="pack-hint">
+            <span aria-hidden="true">↓</span> Tap the pack to open
+          </p>
+          <p class="gate__fine">Sealed product energy · Zero dollars</p>
+          <div class="burst" aria-hidden="true"></div>
         </div>
 
-        <div class="actions">
-          <a
-            id="ig-link"
-            class="ig"
-            href="#"
-            aria-disabled="true"
-            rel="noopener noreferrer"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect
-                x="3.5"
-                y="3.5"
-                width="17"
-                height="17"
-                rx="5"
-                stroke="currentColor"
-                stroke-width="1.75"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="4"
-                stroke="currentColor"
-                stroke-width="1.75"
-              />
-              <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
-            </svg>
-            <span id="ig-label">Instagram — soon</span>
-          </a>
-          <p class="footnote" id="ig-note">Handle coming next</p>
+        <!-- PAYOFF: recovery site after the rip -->
+        <div class="reveal" id="reveal" hidden>
+          <article class="pull" aria-label="Your pull">
+            <div class="pull__foil" aria-hidden="true"></div>
+            <div class="pull__frame">
+              <p class="pull__meta">
+                <span>Secret rare</span>
+                <span>1/1</span>
+              </p>
+              <div class="pull__art" aria-hidden="true">
+                <div class="spark">
+                  <div class="spark__ring"></div>
+                  <div class="spark__core"></div>
+                  <div class="spark__star"></div>
+                </div>
+              </div>
+              <h2 class="pull__name">
+                <span class="holo">Self-control</span>
+              </h2>
+              <p class="pull__type">Support · Live · Unlimited</p>
+            </div>
+          </article>
+
+          <div class="copy">
+            <p class="eyebrow">You opened it. We knew.</p>
+            <h1 class="title"><span class="holo">Pokaholics</span></h1>
+            <p class="gotcha">
+              That urge? That&rsquo;s the whole bit. Welcome in.
+            </p>
+            <p class="lede">
+              We help you <strong>not be addicted</strong> to the rip.
+              Love the cards. Drop the compulsion. Keep your wallet
+              (and your 2&nbsp;a.m. self) intact.
+            </p>
+            <ul class="helps">
+              <li>
+                <span
+                  ><strong>Real talk</strong> when &ldquo;just one more
+                  box&rdquo; stops being a joke</span
+                >
+              </li>
+              <li>
+                <span
+                  ><strong>Spend checks &amp; stop rules</strong> for sealed
+                  product and singles FOMO</span
+                >
+              </li>
+              <li>
+                <span
+                  ><strong>Community that gets it</strong> — weebs, collectors,
+                  recovering pack-chasers</span
+                >
+              </li>
+            </ul>
+            <div class="tags" aria-hidden="true">
+              <p class="tag">harm reduction</p>
+              <p class="tag">no shame</p>
+              <p class="tag">hobby over habit</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <a
+              id="ig-link"
+              class="ig"
+              href="#"
+              aria-disabled="true"
+              rel="noopener noreferrer"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect
+                  x="3.5"
+                  y="3.5"
+                  width="17"
+                  height="17"
+                  rx="5"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                />
+                <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+              </svg>
+              <span id="ig-label">Instagram — soon</span>
+            </a>
+            <p class="footnote" id="ig-note">Community landing next</p>
+          </div>
         </div>
       </div>
     </main>
@@ -588,30 +974,76 @@
       // Set your Instagram handle when ready (no @). Leave empty until then.
       const INSTAGRAM_HANDLE = "";
 
-      (function wireInstagram() {
-        const link = document.getElementById("ig-link");
-        const label = document.getElementById("ig-label");
-        const note = document.getElementById("ig-note");
-        const handle = (INSTAGRAM_HANDLE || "").trim().replace(/^@/, "");
+      (function () {
+        const gate = document.getElementById("gate");
+        const reveal = document.getElementById("reveal");
+        const openBtn = document.getElementById("open-pack");
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
 
-        if (!handle) {
-          link.setAttribute("aria-disabled", "true");
-          link.setAttribute("role", "link");
-          link.removeAttribute("target");
-          link.href = "#";
-          link.addEventListener("click", (e) => e.preventDefault());
-          label.textContent = "Instagram — soon";
-          note.textContent = "Handle coming next";
-          return;
+        function showSite() {
+          gate.hidden = true;
+          reveal.hidden = false;
+          reveal.classList.add("is-in");
+          // Move focus into the real content for keyboard / screen readers
+          const heading = reveal.querySelector("h1");
+          if (heading) {
+            heading.setAttribute("tabindex", "-1");
+            heading.focus({ preventScroll: true });
+          }
+          try {
+            sessionStorage.setItem("pokaholics-opened", "1");
+          } catch (_) {}
         }
 
-        link.href =
-          "https://www.instagram.com/" + encodeURIComponent(handle) + "/";
-        link.target = "_blank";
-        link.removeAttribute("aria-disabled");
-        link.removeAttribute("role");
-        label.textContent = "Follow on Instagram";
-        note.textContent = "@" + handle;
+        function ripPack() {
+          if (gate.classList.contains("is-ripping")) return;
+          openBtn.disabled = true;
+
+          if (reduceMotion) {
+            showSite();
+            return;
+          }
+
+          gate.classList.add("is-ripping");
+          window.setTimeout(showSite, 680);
+        }
+
+        // Returning visitors who've already ripped skip the bait
+        try {
+          if (sessionStorage.getItem("pokaholics-opened") === "1") {
+            showSite();
+          }
+        } catch (_) {}
+
+        openBtn.addEventListener("click", ripPack);
+
+        (function wireInstagram() {
+          const link = document.getElementById("ig-link");
+          const label = document.getElementById("ig-label");
+          const note = document.getElementById("ig-note");
+          const handle = (INSTAGRAM_HANDLE || "").trim().replace(/^@/, "");
+
+          if (!handle) {
+            link.setAttribute("aria-disabled", "true");
+            link.setAttribute("role", "link");
+            link.removeAttribute("target");
+            link.href = "#";
+            link.addEventListener("click", (e) => e.preventDefault());
+            label.textContent = "Instagram — soon";
+            note.textContent = "Community landing next";
+            return;
+          }
+
+          link.href =
+            "https://www.instagram.com/" + encodeURIComponent(handle) + "/";
+          link.target = "_blank";
+          link.removeAttribute("aria-disabled");
+          link.removeAttribute("role");
+          label.textContent = "Join us on Instagram";
+          note.textContent = "@" + handle;
+        })();
       })();
     </script>
   </body>

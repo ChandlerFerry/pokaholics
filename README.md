@@ -2,7 +2,10 @@
 
 Placeholder site for [pokaholics.net](https://pokaholics.net).
 
-Weeb pack-gambler / TCG-chase energy. Original branding only — no franchise art, names, or product lookalikes.
+Support for TCG pack-opening compulsion — weeb aesthetic, recovery pitch.
+Visitors enter by “opening” a free pack; the pull is the recovery message.
+
+Original branding only — no franchise art, names, or product lookalikes.
 
 ## Instagram handle
 
