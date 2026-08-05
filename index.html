@@ -992,9 +992,6 @@
             heading.setAttribute("tabindex", "-1");
             heading.focus({ preventScroll: true });
           }
-          try {
-            sessionStorage.setItem("pokaholics-opened", "1");
-          } catch (_) {}
         }
 
         function ripPack() {
@@ -1009,13 +1006,6 @@
           gate.classList.add("is-ripping");
           window.setTimeout(showSite, 680);
         }
-
-        // Returning visitors who've already ripped skip the bait
-        try {
-          if (sessionStorage.getItem("pokaholics-opened") === "1") {
-            showSite();
-          }
-        } catch (_) {}
 
         openBtn.addEventListener("click", ripPack);
 
