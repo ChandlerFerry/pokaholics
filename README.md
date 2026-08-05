@@ -2,6 +2,8 @@
 
 Placeholder site for [pokaholics.net](https://pokaholics.net).
 
+Weeb pack-gambler / TCG-chase energy. Original branding only — no franchise art, names, or product lookalikes.
+
 ## Instagram handle
 
 Edit `index.html` and set:
@@ -14,4 +16,6 @@ Leave empty until the account exists — the CTA stays disabled.
 
 ## Deploy
 
-Static files on Vercel. Connect this repo, set the production domain to `pokaholics.net`.
+```bash
+npx vercel --prod --scope chandlerferrys-projects
+```
