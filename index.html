@@ -414,15 +414,6 @@
         }
       }
 
-      .gate__fine {
-        margin: 0;
-        font-size: 0.68rem;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: color-mix(in srgb, var(--muted) 75%, transparent);
-      }
-
       /* Opening state */
       .gate.is-ripping .pack {
         animation: rip-pack 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -870,7 +861,6 @@
           <p class="gate__cta" id="pack-hint">
             <span aria-hidden="true">↓</span> Tap the pack to open
           </p>
-          <p class="gate__fine">Sealed product energy · Zero dollars</p>
           <div class="burst" aria-hidden="true"></div>
         </div>
 
@@ -898,6 +888,7 @@
           </article>
 
           <div class="copy">
+            <p class="eyebrow">You opened it, we knew.</p>
             <h1 class="title">
               <span class="holo">Pokaholics<br />Anonymous</span>
             </h1>
