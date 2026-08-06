@@ -690,15 +690,6 @@
         background-position: 0 0;
       }
 
-      .footnote {
-        margin: 0;
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-
       .sr-only {
         position: absolute;
         width: 1px;
@@ -843,7 +834,6 @@
               </svg>
               <span id="ig-label">Instagram - soon</span>
             </a>
-            <p class="footnote" id="ig-note">Community landing next</p>
           </div>
         </div>
       </div>
@@ -891,7 +881,6 @@
         (function wireInstagram() {
           const link = document.getElementById("ig-link");
           const label = document.getElementById("ig-label");
-          const note = document.getElementById("ig-note");
           const handle = (INSTAGRAM_HANDLE || "").trim().replace(/^@/, "");
 
           if (!handle) {
@@ -901,7 +890,6 @@
             link.href = "#";
             link.addEventListener("click", (e) => e.preventDefault());
             label.textContent = "Instagram - soon";
-            note.textContent = "Community landing next";
             return;
           }
 
@@ -911,7 +899,6 @@
           link.removeAttribute("aria-disabled");
           link.removeAttribute("role");
           label.textContent = "Join us on Instagram";
-          note.textContent = "@" + handle;
         })();
       })();
     </script>
